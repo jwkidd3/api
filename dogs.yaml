@@ -1,0 +1,50 @@
+openapi: 3.0.3
+info:
+  description: "API about Dogs"
+  version: "1.0.0"
+  title: "Dog store"
+  contact:
+    name: "John Kidd"
+    url: http://www.dogstore.com
+
+servers:
+  - url: http://localhost:8080
+    description: "Local Dev Server"
+  - url: https://localhost:8443
+    description: "local server 2"
+
+tags:
+  - name: "dogs"
+    description: "dog endpoints"
+
+paths:
+  /dogs:
+    get:
+      summary: "get all dogs"
+      operationId: "getDogs"
+      description: "gets all dogs in store"
+      tags:
+        - "dogs"
+      responses:
+        '200':
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getDogs"
+components:
+  schemas:
+    "getDogs":
+      type: "array"
+      items:
+        $ref: "#/components/schemas/dog"
+    "dog":
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        name:
+          type: "string"
+          description: "dogs name"
+          example: "Daphne"
