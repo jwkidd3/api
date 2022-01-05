@@ -1,0 +1,17 @@
+1. Entity Based
+2. API Version in URL/Header
+www.host.com/api/v1/resource
+3. www.host.com/car
+GET -> getCars() @GET /car
+PUT
+POST -> createCar() @POST /car
+DELETE-> deleteCar() @DELETE /car
+***NOT: www.host.com/getcar , www.host.com/deletecar
+4. Don't Violate the HTTP Protocol
+5. If you need process API's 
+GET www.host.com/process?proc=reconcile
+GET www.host.com/process?proc=endofday
+6. Query Params reflect arguments that are not required
+7. Path params reflect required arguments
+www.host.com/car/{vin}
+getCarByVin(String vin) @GET /car/{vin}
