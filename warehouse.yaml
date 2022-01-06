@@ -1,0 +1,106 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Warehouse API
+  description: For managing a warehouse
+  termsOfService: 'http://www.acme.com/TOS'
+  contact:
+    name: 'ACME Support Team'
+    url: 'http://acme.com/apiinfo'
+    email: 'bubba@acme.com'
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/jwkidd3/Warehouse/1.0.0
+  - url: 'https://api.acme.com/{version}'
+    description: 'prod deployment'
+    variables:
+      version:
+        default: 'v1'
+  - url: 'https://testapi.acme.com/{version}'
+    description: 'test deployment'
+    variables:
+      version:
+        default: 'v1'
+        enum: ['v1','v2']
+paths: 
+  /warehouses/{warehouseId}:
+    get:
+      description: "get warehouse inventory"
+      tags:
+        - 'warehouse info'
+      parameters: 
+        - $ref: '#/components/parameters/warehouseId'
+      responses:
+        200:
+          description: 'all went well'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/warehouse'
+        4XX:
+          description: "client error"
+        5XX:
+          description: "catastrophic server error"
+  /warehouses:
+    post:
+      description: "creating inventory"
+      tags:
+       - 'warehouse info'
+      requestBody:
+        description: "Inventory Item"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/inventory'
+      responses:
+        201:
+          description: "Created"
+        5XX:
+          description: "Unexpected Error"
+components:
+  schemas:
+    warehouse:
+      type: 'object'
+      description: "warehouse information"
+      properties:
+        warehouseId:
+          description: "id of the warehouse"
+          type: 'integer'
+        inventories:
+          type: 'array'
+          description: "list of inventory items"
+          items:
+            $ref: '#/components/schemas/inventory'
+    inventory:
+      type: 'object'
+      description: "single inventory item"
+      properties:
+        sku:
+          description: 'stock keeping unit'
+          type: 'string'
+        quantity:
+          description: 'number available'
+          type: 'integer'
+        location:
+          description: "where it is"
+          type: 'string'
+        warehouseId:
+           description: "warehouse it is located in"
+           type: 'integer'
+      example:
+        sku: 99
+        quantity: 100
+        location: 'west hall'
+        warehouseId: 10001
+  parameters:
+    warehouseId:
+      name: warehouseId
+      description: "id of warehouse"
+      in: path
+      required: true
+      schema:
+        type: integer
+        enum: [10001,10002,10003]
+            
+            
